@@ -1,3 +1,80 @@
+#importing the libraries
+import pandas as pd
+           import numpy as np
+from matplotlib import pyplot as plt
+%matplotlib inline
+import seaborn as sns
+	
+	#ignore the harmless warnings
+import warnings
+warnings.filterwarnings('ignore')
+
+#set to display all cols in dataset
+pd.set_option('display.max_columns',None)
+
+# Load the pro dataset
+traindata1=
+    pd.read_csv("/content/space_weather_dataset.csv",header=0)
+
+# Copy to back-up file
+traindata2=traindata1.copy()
+
+# Display first 5 records
+traindata1.head(5)
+
+
+#size of dataset
+traindata2.shape
+(500, 4)
+
+#decription
+traindata2.describe()
+
+
+# Compute the correlation matrix
+correlation_matrix = traindata2.corr()
+
+# Create a heatmap
+plt.figure(figsize=(12, 10))
+sns.heatmap(correlation_matrix, annot=True, cmap="Greens", fmt=".2f", 
+linewidths=0.5)
+plt.title("Feature Correlation Heatmap")
+plt.show()
+
+
+# Checking for count of null values in the dataset in every column
+	traindata2.isnull().sum()
+
+
+features=list()
+for col in traindata2.columns:
+ if col!='Event_Intensity':
+    features.append(col)
+target='Event_Intensity'
+
+X=traindata2[features]
+y=traindata2[target]
+
+
+# Splitting the dataset into train and test set
+from sklearn.model_selection import train_test_split as tts
+x_train,x_test,y_train,y_test=tts(X,y,test_size=0.3,random_state=42)
+
+# Display size of train and test sets
+x_train.shape,x_test.shape,y_train.shape,y_test.shape
+((350, 3), (150, 3), (350,), (150,))
+
+
+# Scaling the features using mimmax scaler
+from sklearn.preprocessing import MinMaxScaler
+sc=MinMaxScaler(feature_range=(0,1))
+
+x_train=sc.fit_transform(x_train)
+x_train=pd.DataFrame(x_train)
+x_test=sc.fit_transform(x_test)
+x_test=pd.DataFrame(x_test)
+
+
 MODEL DECLARATION
 # Build the regression models and compare the results
 from sklearn.linear_model import LinearRegression
