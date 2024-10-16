@@ -1,0 +1,49 @@
+MODEL DECLARATION
+# Build the regression models and compare the results
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+
+ModelLR = LinearRegression()
+ModelDC = DecisionTreeRegressor()
+ModelRF=RandomForestRegressor(n_estimators=100, random_state= 0)
+
+3.7.2 TRAINING
+  # Train the model training dataset
+    models.fit(x_train, y_train)
+
+3.7.3 TESTING
+    # Prediction the model with test dataset
+    y_pred = models.predict(x_test)
+
+3.7.4 ANALYSIS
+MM = [ModelLR, ModelDC, ModelRF]
+for models in MM:
+    models.fit(x_train, y_train)
+     y_pred = models.predict(x_test)
+    # Print the model name
+    print('\nModel Name: ', models)
+    
+    from sklearn.metrics import r2_score
+    from sklearn.metrics import mean_absolute_error
+    from sklearn.metrics import mean_squared_error
+
+    # actual values
+    actual = y_test
+
+    # predicted values
+    predicted = y_pred
+
+    print("\nEvaluation of model: \n")
+     #mae
+    mae=mean_absolute_error(actual,predicted)
+    print("Mean Absolute Error: ",mae)
+
+    #rmse
+    rmse=np.sqrt(mean_squared_error(actual,predicted))
+    print("Root mean squared error: ",rmse)
+
+    #r2score
+    r2=r2_score(actual,predicted)
+    print("R2 score: ",r2)
+    print("\n<============================================>")
